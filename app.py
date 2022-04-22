@@ -32,12 +32,13 @@ def casoE(line,i, numero):
     i+=1
     real = False
     if(line[i]=='-'):
+        numero += line[i]
         real = True
         i+=1
-        numero += line[i]
     elif(line[i]=='+'):
-        i+=1
         numero += line[i]
+        i+=1
+        
 
     if(line[i].isdigit()):
         pass
@@ -45,9 +46,9 @@ def casoE(line,i, numero):
         print(numero + '       ----->          Error')
         return -1
 
-    while(i<len(line)-1):
+    while(i<len(line)):
         if(line[i].isdigit()):
-            pass
+            numero += line[i]
         else:
             break
         i+=1
@@ -155,33 +156,54 @@ def lexerAritmetico(archivo):
                     if(i == -1):
                         break
                 elif(signo(line, i)):
-                    casovar = False
-                    casonum = False
-                    casosim = True
-                    if(line[i] == '-' and line[i-1] == '-'):
+                    
+                    if(line[i] == '-' and line[i-1] != '-'):
+                        #print('kiti')
                         if( (not line[i-1].isdigit()) and (not line[i-1].isalpha())):
                             if(line[i+1].isdigit()):
+                                print('kiti')
                                 i = CasoNumero(line,i,'-')
                                 casooperacion = False 
+                                casovar = False
+                                casonum = True
+                                casosim = False
                             elif(line[i+1].isalpha()):
                                 i = CasoVariable(line,i,'-')
                                 casooperacion = False 
+                                casovar = True
+                                casonum = False
+                                casosim = False
                         else:
+                            casovar = False
+                            casonum = False
+                            casosim = True
                             print(line[i] + '       ----->          Resta')
                             casooperacion = True
 
                     elif(line[i] == '+' and ((line[i-1] == ')') or (line[i-1].isdigit()) or (line[i-1].isalpha()))):
                         print(line[i] + '       ----->          Suma')
                         casooperacion = True
+                        casovar = False
+                        casonum = False
+                        casosim = True
                     elif(line[i] == '*'and ((line[i-1] == ')') or (line[i-1].isdigit()) or (line[i-1].isalpha()))):
                         print(line[i] + '       ----->          Multiplicación')
                         casooperacion = True
+                        casovar = False
+                        casonum = False
+                        casosim = True
                     elif(line[i] == '/' and ((line[i-1] == ')') or (line[i-1].isdigit()) or (line[i-1].isalpha()))):
                         print(line[i] + '       ----->          División')
                         casooperacion = True
+                        casovar = False
+                        casonum = False
+                        casosim = True
                     elif(line[i] == '^' and ((line[i-1] == ')') or (line[i-1].isdigit()) or (line[i-1].isalpha()))):
                         print(line[i] + '       ----->          Potencia')
                         casooperacion = True
+                        casovar = False
+                        casonum = False
+                        casosim = True
                     elif(line[i] == line[i-1] ):
                         print(line[i] + '       ----->          Error')
                         break
@@ -199,6 +221,7 @@ def lexerAritmetico(archivo):
                         break
                 elif(line[i] == ')'):
                     if(casovar or casonum):
+                        parentesisCerrado += 1
                         casovar = False
                         casonum = False
                         print(line[i] + '       ----->          Paréntesis que cierra')
@@ -223,4 +246,6 @@ def lexerAritmetico(archivo):
 
 #file = input()
 #lexerAritmetico(file)
+
 lexerAritmetico('P1pruebas.txt')
+#lexerAritmetico('p1.txt')
