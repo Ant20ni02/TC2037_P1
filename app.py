@@ -12,7 +12,7 @@ def signo(line, i):
 
 def CasoVariable(line, i):
     variable = ''
-    while(i<len(line)):
+    while(i<len(line)-1):
         if(line[i].isalpha() or line[i].isdigit() or line[i] == '_'):
             variable += line[i]
         else:
@@ -24,14 +24,14 @@ def CasoVariable(line, i):
 
 
 def casoE(line,i, numero):
-    i+=1
     numero += line[i]
+    i+=1
     real = False
-    if(i=='-'):
+    if(line[i]=='-'):
         real = True
         i+=1
         numero += line[i]
-    elif(i=='+'):
+    elif(line[i]=='+'):
         i+=1
         numero += line[i]
 
@@ -41,12 +41,17 @@ def casoE(line,i, numero):
         print(numero + '  ----->  Error')
         return -1
 
-    while(i<len(line)):
+    while(i<len(line)-1):
         if(line[i].isdigit()):
             pass
         else:
             break
         i+=1
+    if(real):
+        print(numero + '  ----->  Real')
+    else:
+        print(numero + '  ----->  Entero')
+
         
 
     return i-1
@@ -56,7 +61,7 @@ def CasoNumero(line, i):
     numero = ''
     flotante = False
     countpunto = 0
-    while(i<len(line)):
+    while(i<len(line)-1):
         if(line[i].isdigit()):
             numero += line[i]
         elif(line[i] == '.'):
@@ -119,22 +124,22 @@ def lexerAritmetico(archivo):
                     if(i == -1):
                         break
                 elif(signo(line, i)):
-                    if(line[i] == '+'):
+                    if(line[i] == '-'):
+                        print(line[i] + '  ----->  Resta')
+                    elif(line[i] == '+'):
                         print(line[i] + '  ----->  Suma')
                     elif(line[i] == '*'):
                         print(line[i] + '  ----->  Multiplicación')
-                    elif(line[i] == '-'):
-                        print(line[i] + '  ----->  Resta')
                     elif(line[i] == '/' ):
                         print(line[i] + '  ----->  División')
                     elif(line[i] == '^'):
                         print(line[i] + '  ----->  Potencia')
-                    casocperacion = True
+                        casocperacion = True
                 else:
                     print(line[i] + '          ----->       Error')
 
                 i+=1
-                print('Kiti: ' + str(i))
+                #print('Kiti: ' + str(i))
                 
 
 
