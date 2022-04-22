@@ -3,6 +3,7 @@
 #Miguel Jiménez Padilla A01423189
 
 
+
 def signo(line, i):
     if(line[i] == '*' or line[i] == '+' or line[i] == '-'  or line[i] == '^' or line[i] == '/' ):
         return True
@@ -10,15 +11,15 @@ def signo(line, i):
         return False
 
 
-def CasoVariable(line, i):
-    variable = ''
-    while(i<len(line)-1):
+def CasoVariable(line, i,variable):
+    if(variable == '-'):
+        i+=1
+    while(i<len(line)):
         if(line[i].isalpha() or line[i].isdigit() or line[i] == '_'):
             variable += line[i]
         else:
             break
         i+=1
-
     print(variable + '  ----->  Variable')
     return i-1
 
@@ -57,11 +58,13 @@ def casoE(line,i, numero):
     return i-1
 
 
-def CasoNumero(line, i):
-    numero = ''
+def CasoNumero(line, i,numero):
     flotante = False
     countpunto = 0
-    while(i<len(line)-1):
+    if(numero == '-'):
+        i+=1
+    #print(i)
+    while(i<len(line)):
         if(line[i].isdigit()):
             numero += line[i]
         elif(line[i] == '.'):
@@ -91,20 +94,20 @@ def lexerAritmetico(archivo):
     with open(archivo) as f:
         line = f.readline()
         while line:
-            casooperacion = False
             casovariableasignacion = True
+            casooperacion = False
             comentario = True
             casosolosigno = False
             casoparentesis = False
             line = f.readline()
             line = line.replace(" ","")
             i=0
-            while(i<len(line)-1):
+            while(i<len(line)):
                 if(comentario and line[i] == '/' and line[i+1] == '/'):
                     print(line[i:] + '  ----->  Comentario')
                     break
                 elif(line[i].isalpha()):
-                    i = CasoVariable(line, i)
+                    i = CasoVariable(line, i,'')
                     if(casovariableasignacion):
                         i+=1
                         if(line[i] == '='):
@@ -118,27 +121,41 @@ def lexerAritmetico(archivo):
                         comentario = True
                         casooperacion = False
                 elif(line[i].isdigit()):#Caso números
-                    i = CasoNumero(line,i)
+                    i = CasoNumero(line,i,'')
                     comentario = True
-                    casocperacion = False
+                    casooperacion = False
                     if(i == -1):
                         break
                 elif(signo(line, i)):
                     if(line[i] == '-'):
-                        print(line[i] + '  ----->  Resta')
+                        if( (not line[i-1].isdigit()) or (not line[i-1].isalpha())):
+                            if(line[i+1].isdigit()):
+                                i = CasoNumero(line,i,'-')
+                                casooperacion = False 
+                            elif(line[i+1].isalpha()):
+                                i = CasoVariable(line,i,'-')
+                                casooperacion = False 
+                        else:  
+                            print(line[i] + '  ----->  Resta')
+                            casooperacion = True  
                     elif(line[i] == '+'):
                         print(line[i] + '  ----->  Suma')
+                        casooperacion = True
                     elif(line[i] == '*'):
                         print(line[i] + '  ----->  Multiplicación')
+                        casooperacion = True
                     elif(line[i] == '/' ):
                         print(line[i] + '  ----->  División')
+                        casooperacion = True
                     elif(line[i] == '^'):
                         print(line[i] + '  ----->  Potencia')
-                        casocperacion = True
+                        casooperacion = True
                 else:
                     print(line[i] + '          ----->       Error')
-
                 i+=1
+
+            if(casooperacion):
+                print(line[i] + '          ----->       Error')
                 #print('Kiti: ' + str(i))
                 
 
