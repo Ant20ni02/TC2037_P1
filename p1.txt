@@ -1,4 +1,2 @@
 
-//Ejemplos de prueba
-poo=7
-d = a ^ b // Esto es un comentario
+c=6.5.3
