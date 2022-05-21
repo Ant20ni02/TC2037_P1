@@ -3,13 +3,13 @@
 #Miguel Jiménez Padilla A01423189
 
 def signo(line, i):
-    if(line[i] == '*' or line[i] == '+' or line[i] == '-'  or line[i] == '^' or line[i] == '/' ):
+    if(line[i] == '*' or line[i] == '+' or line[i] == '-'  or line[i] == '^' or line[i] == '/'):
         return True
     else:
         return False
 
 
-def CasoVariable(line, i,variable, variableasignacion):
+def CasoVariable(line, i,variable):
     if(variable == '-'):
         i+=1
     while(i<len(line)):
@@ -18,10 +18,8 @@ def CasoVariable(line, i,variable, variableasignacion):
         else:
             break
         i+=1
-    if(variableasignacion):
-        pass
-    else:
-        print(variable + '       ----->          Variable')
+
+    print(variable + '       ----->          Variable')
     return i-1
 
 
@@ -70,7 +68,7 @@ def CasoNumero(line, i,numero):
                 countpunto += 1
                 flotante = True
             else:
-                print(numero + '       ----->          Error')
+                print(numero + '       ----->          ErrorNum')
                 return -1
         elif(line[i] == 'E' or line[i] == 'e'):
             numero += line[i]
@@ -101,6 +99,9 @@ def main(lines):
         casonum = False
         casosim = False
         comentario = True
+        casooperacion = False
+        curr = ''
+        var = ''
         #ParentesisCount
         parentesisAbierto = 0
         parentesisCerrado = 0
@@ -109,111 +110,133 @@ def main(lines):
                     print(line[i:] + '       ----->          Comentario')
                     break
             elif(casovar and line[i].isalpha()):#Caso variable
-                    if(casovariableasignacion):
-                        xd = i
-                        i = CasoVariable(line, i,'',casovariableasignacion)
-                        i+=1
-                        if(line[i] == '=' or (line[i] == ' ' and line[i+1] == '=' )):
-                            print( line[xd:i] +'       ----->          Variable')
-                            print( '=' +'       ----->          Asignación')
-                            i+=1
-                            casovariableasignacion = False
-                            casovar = True
-                            casonum = True
-                            comentario = False
-                            casosim = False
-                        else:
-                            print(line[i] + '       ----->          Error')
-                            break
-                    else:
-                        i = CasoVariable(line, i,'',casovariableasignacion)
-                        casovar = False
-                        casonum = False
-                        comentario = True
-                        casosim = True
-
-            elif(line[i].isdigit()):#Caso números
-                    i = CasoNumero(line,i,'')
+                i = CasoVariable(line, i,var)
+                if(casovariableasignacion ==  False):
                     casovar = False
                     casonum = False
                     comentario = True
                     casosim = True
-            elif(signo(line, i)):  
-                    if(line[i] == '-' and line[i-1] != '-'):
-                        #print('kiti')
-                        if( (not line[i-1].isdigit()) and (not line[i-1].isalpha())):
-                            if(line[i+1].isdigit()):
-                                print('kiti')
-                                i = CasoNumero(line,i,'-')
-                                casooperacion = False 
-                                casovar = False
-                                casonum = True
-                                casosim = False
-                            elif(line[i+1].isalpha()):
-                                i = CasoVariable(line,i,'-')
-                                casooperacion = False 
-                                casovar = True
-                                casonum = False
-                                casosim = False
-                        else:
-                            casovar = False
-                            casonum = False
-                            casosim = True
-                            print(line[i] + '       ----->          Resta')
-                            casooperacion = True
+                    casooperacion = False
+                    curr = 'Variable'
+                    var = ''
 
-                    elif(line[i] == '+' and ((line[i-1] == ')') or (line[i-1].isdigit()) or (line[i-1].isalpha()))):
+            elif(casonum and casovariableasignacion == False and line[i].isdigit() ):#Caso números
+                    i = CasoNumero(line,i,var)
+                    casovar = False
+                    casonum = False
+                    comentario = True
+                    casosim = True
+                    casooperacion = False
+                    curr = 'Número'
+                    var = ''
+            elif(casosim and casovariableasignacion == False and signo(line, i) ):
+                    if(line[i] == '-'):
+                        if( curr!='Variable' and curr !='Asignación'):
+                            curr == 'Variable'
+                            casovar = True
+                            casonum = True
+                            comentario = False
+                            casosim = False
+                            casooperacion = True
+                            var = '-'
+                        else:
+                            curr == 'Símbolo'
+                            casovar = True
+                            casonum = True
+                            comentario = False
+                            casosim = False
+                            casooperacion = True
+                            var = ''
+                            print(line[i] + '       ----->          Resta')
+                            
+
+                    elif(line[i] == '+'):
+                        curr == 'Símbolo'
+                        casovar = True
+                        casonum = True
+                        comentario = False
+                        casosim = False
+                        casooperacion = True
+                        var = ''
                         print(line[i] + '       ----->          Suma')
+                    elif(line[i] == '*'):
+                        curr == 'Símbolo'
+                        casovar = True
+                        casonum = True
+                        comentario = False
+                        casosim = False
                         casooperacion = True
-                        casovar = False
-                        casonum = False
-                        casosim = True
-                    elif(line[i] == '*'and ((line[i-1] == ')') or (line[i-1].isdigit()) or (line[i-1].isalpha()))):
+                        var = ''
                         print(line[i] + '       ----->          Multiplicación')
+                    elif(line[i] == '/'):
+                        curr == 'Símbolo'
+                        casovar = True
+                        casonum = True
+                        comentario = False
+                        casosim = False
                         casooperacion = True
-                        casovar = False
-                        casonum = False
-                        casosim = True
-                    elif(line[i] == '/' and ((line[i-1] == ')') or (line[i-1].isdigit()) or (line[i-1].isalpha()))):
+                        var = ''
                         print(line[i] + '       ----->          División')
+                    elif(line[i] == '^' ):
+                        curr == 'Símbolo'
+                        casovar = True
+                        casonum = True
+                        comentario = False
+                        casosim = False
                         casooperacion = True
-                        casovar = False
-                        casonum = False
-                        casosim = True
-                    elif(line[i] == '^' and ((line[i-1] == ')') or (line[i-1].isdigit()) or (line[i-1].isalpha()))):
+                        var = ''
                         print(line[i] + '       ----->          Potencia')
-                        casooperacion = True
-                        casovar = False
-                        casonum = False
-                        casosim = True
-                    elif(line[i] == line[i-1] ):
-                        print(line[i] + '       ----->          Error')
-                        break
+                    
+                        
+
                     else:
                         print(line[i] + '       ----->          Error')
+                        casooperacion = False
                         break
+            
 
-            elif(line[i] == '('):
-                if(casosim):
+            elif(casovariableasignacion == False and  line[i] == '('):
+                if(curr == 'Símbolo'):
+                    curr = 'ParéntesisA'
+                    casovar = True
+                    casonum = True
+                    comentario = False
                     casosim = False
+                    casooperacion = False
+                    var = ''
                     parentesisAbierto += 1
                     print(line[i] + '       ----->          Paréntesis que abre')
                 else:
-                    print(line[i] + '       ----->          Error')
+                    print(line[i] + '       ----->          ErrorPA')
                     break
-            elif(line[i] == ')'):
-                if(casovar or casonum):
-                    parentesisCerrado += 1
+            elif( casovariableasignacion == False and  line[i] == ')'):
+                if(curr == 'Variable' or curr == 'Número' ):
+                    curr = 'ParéntesisC'
                     casovar = False
                     casonum = False
+                    comentario = True
+                    casosim = True
+                    casooperacion = False
+                    var = ''
+                    parentesisCerrado += 1
                     print(line[i] + '       ----->          Paréntesis que cierra')
                 else:
-                    print(line[i] + '       ----->          Error')
+                    print(line[i] + '       ----->          ErrorPC')
                     break
             elif(line[i] == ' '):
                 pass
+            elif(line[i] == '=' and casovariableasignacion):
+                        casovariableasignacion = False
+                        casovar = True
+                        casonum = True
+                        comentario = False
+                        casosim = False
+                        casooperacion = False
+                        curr = 'Asignación'
+                        var = ''
+                        print('=       ----->          Asignación')
             else:
-                print(line[i] + '          ----->       ErrorA')
+                print(line[i] + '          ----->       Error-main')
                 break
             if(i == -1):
                 break
@@ -221,6 +244,8 @@ def main(lines):
 
         if(parentesisAbierto != parentesisCerrado):
             print('          ----->       Error, faltó un paréntesis')
+        if(casooperacion):
+            print('          ----->       Error, quedó una operación inconclusa')
         
 
 
@@ -238,7 +263,7 @@ def lexerAritmetico(archivo):
             
 
 
-#lexerAritmetico('P1pruebas.txt')
-lexerAritmetico('p1.txt')
+lexerAritmetico('P1pruebas.txt')
+#lexerAritmetico('p1.txt')
 
 
