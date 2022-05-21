@@ -2,11 +2,6 @@
 #Silvio Emmanuel Prieto Caro A01423341
 #Miguel Jiménez Padilla A01423189
 
-
-
-
-
-
 def signo(line, i):
     if(line[i] == '*' or line[i] == '+' or line[i] == '-'  or line[i] == '^' or line[i] == '/' ):
         return True
@@ -14,7 +9,7 @@ def signo(line, i):
         return False
 
 
-def CasoVariable(line, i,variable):
+def CasoVariable(line, i,variable, variableasignacion):
     if(variable == '-'):
         i+=1
     while(i<len(line)):
@@ -23,24 +18,25 @@ def CasoVariable(line, i,variable):
         else:
             break
         i+=1
-    print(variable + '       ----->          Variable')
+    if(variableasignacion):
+        pass
+    else:
+        print(variable + '       ----->          Variable')
     return i-1
 
 
 def casoE(line,i, numero):
-    numero += line[i]
-    i+=1
     real = False
-    if(line[i]=='-'):
+    
+    if(i != len(line) and line[i]=='-'):
         numero += line[i]
         real = True
         i+=1
-    elif(line[i]=='+'):
+    elif(i != len(line) and line[i]=='+'):
         numero += line[i]
         i+=1
         
-
-    if(line[i].isdigit()):
+    if(i != len(line) and line[i].isdigit()):
         pass
     else:
         print(numero + '       ----->          Error')
@@ -57,8 +53,6 @@ def casoE(line,i, numero):
     else:
         print(numero + '       ----->          Entero')
 
-        
-
     return i-1
 
 
@@ -67,7 +61,6 @@ def CasoNumero(line, i,numero):
     countpunto = 0
     if(numero == '-'):
         i+=1
-    #print(i)
     while(i<len(line)):
         if(line[i].isdigit()):
             numero += line[i]
@@ -80,6 +73,8 @@ def CasoNumero(line, i,numero):
                 print(numero + '       ----->          Error')
                 return -1
         elif(line[i] == 'E' or line[i] == 'e'):
+            numero += line[i]
+            i+=1
             return casoE(line,i, numero)
         else:
             break
@@ -96,67 +91,54 @@ def CasoNumero(line, i,numero):
 
 
 
-
-
-
-def lexerAritmetico(archivo):
-    with open(archivo) as f:
-        line = f.readline()
-        while line:
-            #casos
-            casovar = False
-            casonum = False
-            casosim = False
-            #------
-            casovariableasignacion = True
-            casooperacion = False
-            comentario = True
-            parentesisAbierto = 0
-            parentesisCerrado = 0
-            line = f.readline()
-            line = line.replace(" ","")
-            i=0
-            while(i<len(line)):
-                if(comentario and line[i] == '/' and line[i+1] == '/'):
+def main(lines):
+    for line in lines:
+        print("Línea Actual: "+ line)
+        i=0
+        #Casos activos
+        casovariableasignacion = True
+        casovar = True
+        casonum = False
+        casosim = False
+        comentario = True
+        #ParentesisCount
+        parentesisAbierto = 0
+        parentesisCerrado = 0
+        while(i<len(line)):
+            if(comentario and line[i] == '/' and line[i+1] == '/'):
                     print(line[i:] + '       ----->          Comentario')
                     break
-                elif(line[i].isalpha()):
-                    
-                    if(not line[i-1].isdigit() and i >0):
-                        i = CasoVariable(line, i,'')
-                        casovar = True
-                        casonum = False
-                        casosim = False
-                        casooperacion = False
-                    elif(line[i-1].isdigit() and i >0):
-                        print(line[i] + '       ----->          Error')
-                        break
-
+            elif(casovar and line[i].isalpha()):#Caso variable
                     if(casovariableasignacion):
-                        i = CasoVariable(line, i,'')
-                        casooperacion = False
+                        xd = i
+                        i = CasoVariable(line, i,'',casovariableasignacion)
                         i+=1
-                        if(line[i] == '='):
-                            print(line[i] + '       ----->          Asignación')
+                        if(line[i] == '=' or (line[i] == ' ' and line[i+1] == '=' )):
+                            print( line[xd:i] +'       ----->          Variable')
+                            print( '=' +'       ----->          Asignación')
+                            i+=1
                             casovariableasignacion = False
+                            casovar = True
+                            casonum = True
                             comentario = False
+                            casosim = False
                         else:
                             print(line[i] + '       ----->          Error')
                             break
                     else:
+                        i = CasoVariable(line, i,'',casovariableasignacion)
+                        casovar = False
+                        casonum = False
                         comentario = True
-                        casooperacion = False
-                elif(line[i].isdigit()):#Caso números
+                        casosim = True
+
+            elif(line[i].isdigit()):#Caso números
                     i = CasoNumero(line,i,'')
-                    comentario = True
-                    casooperacion = False
                     casovar = False
-                    casonum = True
-                    casosim = False
-                    if(i == -1):
-                        break
-                elif(signo(line, i)):
-                    
+                    casonum = False
+                    comentario = True
+                    casosim = True
+            elif(signo(line, i)):  
                     if(line[i] == '-' and line[i-1] != '-'):
                         #print('kiti')
                         if( (not line[i-1].isdigit()) and (not line[i-1].isalpha())):
@@ -211,41 +193,52 @@ def lexerAritmetico(archivo):
                         print(line[i] + '       ----->          Error')
                         break
 
-                elif(line[i] == '('):
-                    if(casosim):
-                        casosim = False
-                        parentesisAbierto += 1
-                        print(line[i] + '       ----->          Paréntesis que abre')
-                    else:
-                        print(line[i] + '       ----->          Error')
-                        break
-                elif(line[i] == ')'):
-                    if(casovar or casonum):
-                        parentesisCerrado += 1
-                        casovar = False
-                        casonum = False
-                        print(line[i] + '       ----->          Paréntesis que cierra')
-                    else:
-                        print(line[i] + '       ----->          Error')
-                        break
-
+            elif(line[i] == '('):
+                if(casosim):
+                    casosim = False
+                    parentesisAbierto += 1
+                    print(line[i] + '       ----->          Paréntesis que abre')
                 else:
-                    print(line[i] + '          ----->       Error')
-                i+=1
+                    print(line[i] + '       ----->          Error')
+                    break
+            elif(line[i] == ')'):
+                if(casovar or casonum):
+                    parentesisCerrado += 1
+                    casovar = False
+                    casonum = False
+                    print(line[i] + '       ----->          Paréntesis que cierra')
+                else:
+                    print(line[i] + '       ----->          Error')
+                    break
+            elif(line[i] == ' '):
+                pass
+            else:
+                print(line[i] + '          ----->       ErrorA')
+                break
+            if(i == -1):
+                break
+            i+=1
 
-            if(casooperacion):
-                print('          ----->       Error, quedó una operación pendiente')
-            elif(parentesisAbierto != parentesisCerrado):
-                print('          ----->       Error, faltó un paréntesis')
-
-                
-                #print('Kiti: ' + str(i))
-                
+        if(parentesisAbierto != parentesisCerrado):
+            print('          ----->       Error, faltó un paréntesis')
+        
 
 
+#Escritura de 
+def lexerAritmetico(archivo):
+    with open(archivo) as f_in:
+        lines = (line.rstrip() for line in f_in) 
+        lines = list(line for line in lines if line) # Non-blank lines in a list
+        main(lines)
+            
+            
+            
 
-#file = input()
-#lexerAritmetico(file)
 
-lexerAritmetico('P1pruebas.txt')
-#lexerAritmetico('p1.txt')
+            
+
+
+#lexerAritmetico('P1pruebas.txt')
+lexerAritmetico('p1.txt')
+
+
