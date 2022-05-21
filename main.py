@@ -102,6 +102,7 @@ def main(lines):
         casooperacion = False
         curr = ''
         var = ''
+        restarara = False
         #ParentesisCount
         parentesisAbierto = 0
         parentesisCerrado = 0
@@ -131,7 +132,8 @@ def main(lines):
                     var = ''
             elif(casosim and casovariableasignacion == False and signo(line, i) ):
                     if(line[i] == '-'):
-                        if( curr!='Variable' and curr !='Asignación'):
+                        if( curr!='Variable' and curr != 'Número'):
+                            print('kiti')
                             curr == 'Variable'
                             casovar = True
                             casonum = True
@@ -140,7 +142,7 @@ def main(lines):
                             casooperacion = True
                             var = '-'
                         else:
-                            curr == 'Símbolo'
+                            curr = 'Símbolo'
                             casovar = True
                             casonum = True
                             comentario = False
@@ -148,10 +150,8 @@ def main(lines):
                             casooperacion = True
                             var = ''
                             print(line[i] + '       ----->          Resta')
-                            
-
                     elif(line[i] == '+'):
-                        curr == 'Símbolo'
+                        curr = 'Símbolo'
                         casovar = True
                         casonum = True
                         comentario = False
@@ -160,7 +160,7 @@ def main(lines):
                         var = ''
                         print(line[i] + '       ----->          Suma')
                     elif(line[i] == '*'):
-                        curr == 'Símbolo'
+                        curr = 'Símbolo'
                         casovar = True
                         casonum = True
                         comentario = False
@@ -169,7 +169,7 @@ def main(lines):
                         var = ''
                         print(line[i] + '       ----->          Multiplicación')
                     elif(line[i] == '/'):
-                        curr == 'Símbolo'
+                        curr = 'Símbolo'
                         casovar = True
                         casonum = True
                         comentario = False
@@ -178,7 +178,7 @@ def main(lines):
                         var = ''
                         print(line[i] + '       ----->          División')
                     elif(line[i] == '^' ):
-                        curr == 'Símbolo'
+                        curr = 'Símbolo'
                         casovar = True
                         casonum = True
                         comentario = False
@@ -230,7 +230,7 @@ def main(lines):
                         casovar = True
                         casonum = True
                         comentario = False
-                        casosim = False
+                        casosim = True
                         casooperacion = False
                         curr = 'Asignación'
                         var = ''
@@ -241,6 +241,7 @@ def main(lines):
             if(i == -1):
                 break
             i+=1
+            #print(curr)
 
         if(parentesisAbierto != parentesisCerrado):
             print('          ----->       Error, faltó un paréntesis')
@@ -263,7 +264,7 @@ def lexerAritmetico(archivo):
             
 
 
-lexerAritmetico('P1pruebas.txt')
-#lexerAritmetico('p1.txt')
+#lexerAritmetico('P1pruebas.txt')
+lexerAritmetico('p1.txt')
 
 
