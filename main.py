@@ -250,7 +250,7 @@ def main(lines):
                         casovar = True
                         casonum = True
                         comentario = False
-                        casosim = True
+                        casosim = False
                         casooperacion = False
                         primercaso = True
                         curr = 'Asignación'
