@@ -46,6 +46,13 @@ def casoE(line,i, numero):
         pass
     else:
         print(numero + '       ----->          ErrorCorto')
+
+        writeInterface('        <span class = "endSquareError">')
+        writeInterface("\n")
+        writeInterface("→ Error ")
+        writeInterface("\n")
+        writeInterface("        </span>")
+
         return -1
 
     while(i<len(line)):
@@ -87,6 +94,13 @@ def CasoNumero(line, i,numero):
                 flotante = True
             else:
                 print(numero + '       ----->          ErrorCorto')
+
+                writeInterface('        <span class = "endSquareError">')
+                writeInterface("\n")
+                writeInterface("→ Error ")
+                writeInterface("\n")
+                writeInterface("        </span>")
+
                 return -1
         elif(line[i] == 'E' or line[i] == 'e'):
             numero += line[i]
@@ -293,6 +307,13 @@ def main(lines):
 
                     else:
                         print(line[i] + '       ----->          ErrorCorto')
+
+                        writeInterface('        <span class = "endSquareError">')
+                        writeInterface("\n")
+                        writeInterface("→ Error ")
+                        writeInterface("\n")
+                        writeInterface("        </span>")
+
                         casooperacion = False
                         break
             
@@ -321,6 +342,13 @@ def main(lines):
 
                 else:
                     print(line[i] + '       ----->          ErrorCorto')
+
+                    writeInterface('        <span class = "endSquareError">')
+                    writeInterface("\n")
+                    writeInterface("→ Error ")
+                    writeInterface("\n")
+                    writeInterface("        </span>")
+                    
                     break
             elif( casovariableasignacion == False and  line[i] == ')'):
                 if(curr == 'Variable' or curr == 'Número' ):
@@ -343,6 +371,13 @@ def main(lines):
 
                 else:
                     print(line[i] + '       ----->          ErrorCorto')
+
+                    writeInterface('        <span class = "endSquareError">')
+                    writeInterface("\n")
+                    writeInterface("→ Error ")
+                    writeInterface("\n")
+                    writeInterface("        </span>")
+
                     break
             elif(line[i] == ' '):
                 pass
@@ -365,6 +400,13 @@ def main(lines):
                         writeInterface("        </span>")
             else:
                 print(line[i] + '          ----->       ErrorCorto')
+
+                writeInterface('        <span class = "endSquareError">')
+                writeInterface("\n")
+                writeInterface("→ Error ")
+                writeInterface("\n")
+                writeInterface("        </span>")
+
                 break
             if(i == -1):
                 break
@@ -380,8 +422,21 @@ def main(lines):
 
         if(parentesisAbierto != parentesisCerrado):
             print('          ----->       ErrorLargo')
+
+            writeInterface('        <span class = "endSquareError">')
+            writeInterface("\n")
+            writeInterface("→ Error ")
+            writeInterface("\n")
+            writeInterface("        </span>")
+
         if(casooperacion):
             print('          ----->       ErrorLargo')
+
+            writeInterface('        <span class = "endSquareError">')
+            writeInterface("\n")
+            writeInterface("→ Error ")
+            writeInterface("\n")
+            writeInterface("        </span>")
         
 
 
@@ -401,12 +456,7 @@ def lexerAritmetico(archivo):
         writeInterface("</html>")
             
             
-
-
-            
-
-
 #lexerAritmetico('P1pruebas.txt')
-lexerAritmetico('p1.txt')
+lexerAritmetico('P1pruebas.txt')
 
 
