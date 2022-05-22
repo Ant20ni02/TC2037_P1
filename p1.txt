@@ -1,4 +1,4 @@
 s = 2
 l = 5*s / (2*(s^2) + 9)
 s = (5 / 2 * a^2) * t //Tipo de señal de rampa
-g = 2e-
+g = (a+b)) + 5

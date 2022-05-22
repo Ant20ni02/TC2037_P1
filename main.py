@@ -255,7 +255,7 @@ def main(lines):
                         primercaso = True
                         curr = 'Asignación'
                         var = ''
-                        print('=       ----->          ErrorCorto')
+                        print('=       ----->          Asignación')
             else:
                 print(line[i] + '          ----->       ErrorCorto')
                 break
