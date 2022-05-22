@@ -35,7 +35,7 @@ def casoE(line,i, numero):
     if(i != len(line) and line[i].isdigit()):
         pass
     else:
-        print(numero + '       ----->          Error')
+        print(numero + '       ----->          ErrorCorto')
         return -1
 
     while(i<len(line)):
@@ -64,7 +64,7 @@ def CasoNumero(line, i,numero):
                 countpunto += 1
                 flotante = True
             else:
-                print(numero + '       ----->          ErrorNum')
+                print(numero + '       ----->          ErrorCorto')
                 return -1
         elif(line[i] == 'E' or line[i] == 'e'):
             numero += line[i]
@@ -205,7 +205,7 @@ def main(lines):
                         
 
                     else:
-                        print(line[i] + '       ----->          Error')
+                        print(line[i] + '       ----->          ErrorCorto')
                         casooperacion = False
                         break
             
@@ -226,7 +226,7 @@ def main(lines):
                     parentesisAbierto += 1
                     print(line[i] + '       ----->          Paréntesis que abre')
                 else:
-                    print(line[i] + '       ----->          ErrorPA')
+                    print(line[i] + '       ----->          ErrorCorto')
                     break
             elif( casovariableasignacion == False and  line[i] == ')'):
                 if(curr == 'Variable' or curr == 'Número' ):
@@ -241,7 +241,7 @@ def main(lines):
                     parentesisCerrado += 1
                     print(line[i] + '       ----->          Paréntesis que cierra')
                 else:
-                    print(line[i] + '       ----->          ErrorPC')
+                    print(line[i] + '       ----->          ErrorCorto')
                     break
             elif(line[i] == ' '):
                 pass
@@ -255,9 +255,9 @@ def main(lines):
                         primercaso = True
                         curr = 'Asignación'
                         var = ''
-                        print('=       ----->          Asignación')
+                        print('=       ----->          ErrorCorto')
             else:
-                print(line[i] + '          ----->       Error-main')
+                print(line[i] + '          ----->       ErrorCorto')
                 break
             if(i == -1):
                 break
@@ -265,9 +265,9 @@ def main(lines):
             #print(curr)
 
         if(parentesisAbierto != parentesisCerrado):
-            print('          ----->       Error, faltó un paréntesis')
+            print('          ----->       ErrorLargo')
         if(casooperacion):
-            print('          ----->       Error, quedó una operación inconclusa')
+            print('          ----->       ErrorLargo')
         
 
 
