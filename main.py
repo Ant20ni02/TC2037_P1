@@ -3,6 +3,7 @@
 #Miguel Jiménez Padilla A01423189
 
 from asyncore import write
+import webbrowser
 
 
 def signo(line, i):
@@ -454,6 +455,8 @@ def lexerAritmetico(archivo):
         writeInterface("    </body>")
         writeInterface("\n")    
         writeInterface("</html>")
+
+        webbrowser.open_new_tab("./app.html")
             
             
 #lexerAritmetico('P1pruebas.txt')
