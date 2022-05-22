@@ -2,6 +2,9 @@
 #Silvio Emmanuel Prieto Caro A01423341
 #Miguel Jiménez Padilla A01423189
 
+from asyncore import write
+
+
 def signo(line, i):
     if(line[i] == '*' or line[i] == '+' or line[i] == '-'  or line[i] == '^' or line[i] == '/'):
         return True
@@ -20,6 +23,13 @@ def CasoVariable(line, i,variable):
         i+=1
 
     print(variable + '       ----->          Variable')
+
+    writeInterface('        <span style="color: #40CFFF;" class="objects">')
+    writeInterface("\n")
+    writeInterface(str("            " + variable))
+    writeInterface("\n")
+    writeInterface("        </span>")
+
     return i-1
 
 
@@ -85,7 +95,9 @@ def CasoNumero(line, i,numero):
     return i-1
 
 
-
+def writeInterface(line):
+    with open("app.html",'a') as f:
+        f.write(line)
 
 
 
@@ -93,6 +105,13 @@ def main(lines):
     for line in lines:
         print("Línea Actual: "+ line)
         i=0
+
+        ####### top div #########
+        writeInterface("\n")
+        writeInterface('    <div>')
+        writeInterface("\n")
+        #########################
+
         #Casos activos
         casovariableasignacion = True
         casovar = True
@@ -106,6 +125,7 @@ def main(lines):
         parentesisAbierto = 0
         parentesisCerrado = 0
         while(i<len(line)):
+
             if(comentario and line[i] == '/' and line[i+1] == '/'):
                     print(line[i:] + '       ----->          Comentario')
                     break
@@ -235,12 +255,25 @@ def main(lines):
                         curr = 'Asignación'
                         var = ''
                         print('=       ----->          Asignación')
+
+                        writeInterface('        <span style="color: red;" class="objects">')
+                        writeInterface("\n")
+                        writeInterface(str("            " + "="))
+                        writeInterface("\n")
+                        writeInterface("        </span>")
             else:
                 print(line[i] + '          ----->       Error-main')
                 break
             if(i == -1):
                 break
             i+=1
+
+        ########## bottom close div ############
+        writeInterface("\n")
+        writeInterface('    </div>')
+        writeInterface("\n")
+
+        ########################################
 
         if(parentesisAbierto != parentesisCerrado):
             print('          ----->       Error, faltó un paréntesis')
@@ -255,7 +288,14 @@ def lexerAritmetico(archivo):
         lines = (line.rstrip() for line in f_in) 
         lines = list(line for line in lines if line) # Non-blank lines in a list
         main(lines)
-            
+        ####
+        writeInterface("\n")
+        writeInterface("\n")
+        writeInterface("\n")
+
+        writeInterface("    </body>")
+        writeInterface("\n")    
+        writeInterface("</html>")
             
             
 

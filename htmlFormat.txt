@@ -1,0 +1,50 @@
+
+
+
+    <span style="color: red;" class="objects">
+        =
+    </span>
+
+    <span style="color: #40CFFF;" class="objects">
+        b
+    </span>
+
+    <span style="color: purple;" class="objects">
+        +
+    </span>
+
+    <span style="color: brown;" class="objects">
+        *
+    </span>
+
+    <span style="color: green;" class="objects">
+        -
+    </span>
+
+    <span style="color: gray" class="objects">
+        /
+    </span>
+
+    <span style="color: yellow" class="objects">
+        ^
+    </span>
+
+    <span style="color: orange" class="objects">
+        7
+    </span>
+
+    <span style="color: pink;" class="objects">
+        32.4
+    </span>
+
+    <span style="color: blue;" class="objects">
+        ( )
+    </span>
+
+    <span style="color:#C4A484" class="objects">
+        //
+    </span>
+
+    <div class="endSquareError">
+        
+    </div>
