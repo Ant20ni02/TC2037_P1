@@ -56,8 +56,20 @@ def casoE(line,i, numero):
         i+=1
     if(real):
         print(numero + '       ----->          Real')
+
+        writeInterface('        <span style="color: pink;" class="objects">')
+        writeInterface("\n")
+        writeInterface(str("            " + numero))
+        writeInterface("\n")
+        writeInterface("        </span>")
     else:
         print(numero + '       ----->          Entero')
+
+        writeInterface('        <span style="color: orange;" class="objects">')
+        writeInterface("\n")
+        writeInterface(str("            " + numero))
+        writeInterface("\n")
+        writeInterface("        </span>")
 
     return i-1
 
@@ -85,8 +97,22 @@ def CasoNumero(line, i,numero):
         i+=1
     if(flotante):
         print(numero + '       ----->          Real')
+
+        writeInterface('        <span style="color: pink;" class="objects">')
+        writeInterface("\n")
+        writeInterface(str("            " + numero))
+        writeInterface("\n")
+        writeInterface("        </span>")
     else:
         print(numero + '       ----->          Entero')
+
+        writeInterface('        <span style="color: orange;" class="objects">')
+        writeInterface("\n")
+        writeInterface(str("            " + numero))
+        writeInterface("\n")
+        writeInterface("        </span>")
+
+        
 
     return i-1
 
@@ -104,7 +130,7 @@ def main(lines):
 
         ####### top div #########
         writeInterface("\n")
-        writeInterface('    <div>')
+        writeInterface('    <div style = "margin-top: 1em;">')
         writeInterface("\n")
         #########################
 
@@ -126,6 +152,13 @@ def main(lines):
 
             if(comentario and line[i] == '/' and line[i+1] == '/'):
                     print(line[i:] + '       ----->          Comentario')
+
+                    writeInterface('        <span style="color: #AB9144;" class="objects">')
+                    writeInterface("\n")
+                    writeInterface(str("            " + line[i:]))
+                    writeInterface("\n")
+                    writeInterface("        </span>")
+
                     break
             elif(casovar and line[i].isalpha()):#Caso variable
                 i = CasoVariable(line, i,var)
@@ -183,6 +216,13 @@ def main(lines):
                     curr = 'Símbolo'
                     var = ''
                     print(line[i] + '       ----->          Resta')
+
+                    writeInterface('        <span style="color: green;" class="objects">')
+                    writeInterface("\n")
+                    writeInterface(str("            " + "-"))
+                    writeInterface("\n")
+                    writeInterface("        </span>")
+
             elif(casosim and casovariableasignacion == False and signo(line, i) ):
                     restare = False
                     if(line[i] == '+'):
@@ -194,6 +234,13 @@ def main(lines):
                         casooperacion = True
                         var = ''
                         print(line[i] + '       ----->          Suma')
+
+                        writeInterface('        <span style="color: purple;" class="objects">')
+                        writeInterface("\n")
+                        writeInterface(str("            " + "+"))
+                        writeInterface("\n")
+                        writeInterface("        </span>")
+
                     elif(line[i] == '*'):
                         curr = 'Símbolo'
                         casovar = True
@@ -203,6 +250,13 @@ def main(lines):
                         casooperacion = True
                         var = ''
                         print(line[i] + '       ----->          Multiplicación')
+
+                        writeInterface('        <span style="color: brown;" class="objects">')
+                        writeInterface("\n")
+                        writeInterface(str("            " + "*"))
+                        writeInterface("\n")
+                        writeInterface("        </span>")
+
                     elif(line[i] == '/'):
                         curr = 'Símbolo'
                         casovar = True
@@ -212,6 +266,13 @@ def main(lines):
                         casooperacion = True
                         var = ''
                         print(line[i] + '       ----->          División')
+
+                        writeInterface('        <span style="color: gray;" class="objects">')
+                        writeInterface("\n")
+                        writeInterface(str("            " + "/"))
+                        writeInterface("\n")
+                        writeInterface("        </span>")
+
                     elif(line[i] == '^' ):
                         curr = 'Símbolo'
                         casovar = True
@@ -221,6 +282,12 @@ def main(lines):
                         casooperacion = True
                         var = ''
                         print(line[i] + '       ----->          Potencia')
+
+                        writeInterface('        <span style="color: #efc90b;" class="objects">')
+                        writeInterface("\n")
+                        writeInterface(str("            " + "^"))
+                        writeInterface("\n")
+                        writeInterface("        </span>")
                     
                         
 
@@ -245,6 +312,13 @@ def main(lines):
                     var = ''
                     parentesisAbierto += 1
                     print(line[i] + '       ----->          Paréntesis que abre')
+
+                    writeInterface('        <span style="color: blue;" class="objects">')
+                    writeInterface("\n")
+                    writeInterface(str("            " + "("))
+                    writeInterface("\n")
+                    writeInterface("        </span>")
+
                 else:
                     print(line[i] + '       ----->          ErrorCorto')
                     break
@@ -260,6 +334,13 @@ def main(lines):
                     var = ''
                     parentesisCerrado += 1
                     print(line[i] + '       ----->          Paréntesis que cierra')
+
+                    writeInterface('        <span style="color: blue;" class="objects">')
+                    writeInterface("\n")
+                    writeInterface(str("            " + ")"))
+                    writeInterface("\n")
+                    writeInterface("        </span>")
+
                 else:
                     print(line[i] + '       ----->          ErrorCorto')
                     break
