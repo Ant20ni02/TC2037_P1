@@ -109,7 +109,17 @@ def main(lines):
                     break
             elif(casovar and line[i].isalpha()):#Caso variable
                 i = CasoVariable(line, i,var)
-                if(casovariableasignacion ==  False):
+                if casovariableasignacion:
+                    casovar = False
+                    casonum = False
+                    comentario = False
+                    casosim = False
+                    casooperacion = False
+                    primercaso = False
+                    curr = 'Variable'
+                    restare = False
+                    var = ''
+                else:
                     casovar = False
                     casonum = False
                     comentario = True
@@ -275,7 +285,7 @@ def lexerAritmetico(archivo):
             
 
 
-lexerAritmetico('P1pruebas.txt')
-#lexerAritmetico('p1.txt')
+#lexerAritmetico('P1pruebas.txt')
+lexerAritmetico('p1.txt')
 
 
