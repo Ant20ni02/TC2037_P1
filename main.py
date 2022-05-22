@@ -3,15 +3,13 @@
 #Miguel Jiménez Padilla A01423189
 
 def signo(line, i):
-    if(line[i] == '*' or line[i] == '+' or line[i] == '-'  or line[i] == '^' or line[i] == '/'):
+    if(line[i] == '*' or line[i] == '+'  or line[i] == '^' or line[i] == '/'):
         return True
     else:
         return False
 
 
 def CasoVariable(line, i,variable):
-    if(variable == '-'):
-        i+=1
     while(i<len(line)):
         if(line[i].isalpha() or line[i].isdigit() or line[i] == '_'):
             variable += line[i]
@@ -57,8 +55,6 @@ def casoE(line,i, numero):
 def CasoNumero(line, i,numero):
     flotante = False
     countpunto = 0
-    if(numero == '-'):
-        i+=1
     while(i<len(line)):
         if(line[i].isdigit()):
             numero += line[i]
@@ -102,7 +98,8 @@ def main(lines):
         casooperacion = False
         curr = ''
         var = ''
-        restarara = False
+        restare = False
+        primercaso = False
         #ParentesisCount
         parentesisAbierto = 0
         parentesisCerrado = 0
@@ -118,7 +115,9 @@ def main(lines):
                     comentario = True
                     casosim = True
                     casooperacion = False
+                    primercaso = False
                     curr = 'Variable'
+                    restare = False
                     var = ''
 
             elif(casonum and casovariableasignacion == False and line[i].isdigit() ):#Caso números
@@ -128,29 +127,35 @@ def main(lines):
                     comentario = True
                     casosim = True
                     casooperacion = False
+                    primercaso = False
                     curr = 'Número'
+                    restare = False
                     var = ''
+            elif((casosim or restare or primercaso ) and casovariableasignacion == False and line[i] == '-'):
+                
+                if( curr != 'Variable' and curr != 'Número'):
+                    casovar = True
+                    casonum = True
+                    comentario = False
+                    casosim = False
+                    casooperacion = True
+                    primercaso = False
+                    restare = False
+                    curr = 'Símbolo'
+                    var = '-'    
+                else:
+                    casovar = True
+                    casonum = True
+                    comentario = False
+                    casosim = False
+                    casooperacion = True
+                    restare = False
+                    curr = 'Símbolo'
+                    var = ''
+                    print(line[i] + '       ----->          Resta')
             elif(casosim and casovariableasignacion == False and signo(line, i) ):
-                    if(line[i] == '-'):
-                        if( curr!='Variable' and curr != 'Número'):
-                            print('kiti')
-                            curr == 'Variable'
-                            casovar = True
-                            casonum = True
-                            comentario = False
-                            casosim = False
-                            casooperacion = True
-                            var = '-'
-                        else:
-                            curr = 'Símbolo'
-                            casovar = True
-                            casonum = True
-                            comentario = False
-                            casosim = False
-                            casooperacion = True
-                            var = ''
-                            print(line[i] + '       ----->          Resta')
-                    elif(line[i] == '+'):
+                    restare = False
+                    if(line[i] == '+'):
                         curr = 'Símbolo'
                         casovar = True
                         casonum = True
@@ -196,13 +201,17 @@ def main(lines):
             
 
             elif(casovariableasignacion == False and  line[i] == '('):
-                if(curr == 'Símbolo'):
+                if(curr == 'Símbolo' or primercaso):
+                    if(var== '-'):
+                        print( '-       ----->          Resta')
                     curr = 'ParéntesisA'
                     casovar = True
                     casonum = True
                     comentario = False
                     casosim = False
                     casooperacion = False
+                    primercaso = False
+                    restare = True
                     var = ''
                     parentesisAbierto += 1
                     print(line[i] + '       ----->          Paréntesis que abre')
@@ -217,6 +226,7 @@ def main(lines):
                     comentario = True
                     casosim = True
                     casooperacion = False
+                    restare = False
                     var = ''
                     parentesisCerrado += 1
                     print(line[i] + '       ----->          Paréntesis que cierra')
@@ -232,6 +242,7 @@ def main(lines):
                         comentario = False
                         casosim = True
                         casooperacion = False
+                        primercaso = True
                         curr = 'Asignación'
                         var = ''
                         print('=       ----->          Asignación')
@@ -264,7 +275,7 @@ def lexerAritmetico(archivo):
             
 
 
-#lexerAritmetico('P1pruebas.txt')
-lexerAritmetico('p1.txt')
+lexerAritmetico('P1pruebas.txt')
+#lexerAritmetico('p1.txt')
 
 
