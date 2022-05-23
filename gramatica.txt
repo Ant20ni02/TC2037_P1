@@ -1,0 +1,33 @@
+exponencial ::=  'E' | 'e'
+parentesisApertura ::= '('
+parentesisDeCierre ::= ')'
+diagonal ::= '/'
+barraBaja ::= '_'
+Asignación : = '='
+
+operadores ::= '*' | '+' | '-' | diagonal | '^'   
+
+
+digito ::= 1|2|3|4|5|6|7|8|9|0
+    
+caracter ::= a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z
+
+literal ::= caracter | caracter literal
+
+numero ::= digito | digito.digito | digito.digito exponencial digito | digito.digito +exponencial digito | digito.digito -exponencial digito
+
+variable ::= barraBaja caracter | caracter barraBaja | barraBaja caracter digito | barraBaja digito caracter 
+            | digito barraBaja caracter | digito caracter barraBaja | digito caracter barraBaja | caracter digito barraBaja | caracter barraBaja digito |
+            barraBaja literal | literal barraBaja | barraBaja literal digito | barraBaja digito literal 
+            | digito barraBaja literal | digito literal barraBaja | digito literal barraBaja | literal digito barraBaja | literal barraBaja digito 
+
+comentario ::= diagonal diagonal literal
+
+operacion ::= numero + numero | numero - numero | numero * numero | numero / numero | numero ^ numero
+
+operacionParentesis ::= parentesisApertura operacion parentesisDeCierre numero | numero parentesisApertura operacion parentesisDeCierre
+                    | parentesisApertura operacion parentesisDeCierre parentesisApertura operacion parentesisDeCierre 
+
+expresion ::= comentario | variable Asignación numero | variable Asignación variable | variable Asignación operacion | variable Asignación operacionParentesis
+            
+
