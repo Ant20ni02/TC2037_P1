@@ -302,7 +302,7 @@ def main2(n):
             
 if __name__ == '__main__':
     
-    lexerAritmetico('P1pruebas.txt')
+    lexerAritmetico('p1.txt')
     size = len(lines)
     
     start = time()
