@@ -310,10 +310,10 @@ if __name__ == '__main__':
     end = time()
     print("Tiempo de ejecucion secuencial: ", end-start)
     
-      
+    '''  
     pool = Pool(3)
     start1 = time()
     pool.map(mainFunction, lines)
     end1 = time()
-    print("Tiempo de ejecucion paralelo: ", end1-start1)
+    print("Tiempo de ejecucion paralelo: ", end1-start1)'''
     
